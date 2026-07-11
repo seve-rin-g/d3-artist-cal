@@ -1,5 +1,15 @@
-date,location,name,category
-2026-01-12,Paris,Winter Design Sprint,Workshop
+date,location,name,category,link
+2026-04-10,Seattle,Squelch,DJ set
+2026-05-01,New Orleans,?,DJ set
+2026-05-17,San Francisco,Parameter Weekender,DnB b2b w/ Octo Octa,<link>
+2026-05-18,Washington DC,?,DJ set
+2026-05-22,Detroit,T4T LUV NRG,DJ set
+2026-05-23,Detroit,Transmission,DJ set
+2026-05-24,Detroit,Convergence,DJ set
+2026-05-25,Detroit,Bunker,DnB b2b w/ Octo Octa,<link>
+2026-06-01,Seattle,Vessel,DJ set
+2026-06-21,San Francisco,Eternal Research,Audio engineer
+2026-06-21,San Francisco,Recoherence,DJ set
 2026-07-03,Northern California,Frogette,Audio engineer
 2026-07-10,Los Angeles,Cirra,DJ set
 2026-08-25,Vermont,System Activate,Audio engineer

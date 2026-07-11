@@ -6,8 +6,9 @@ const locationMeta = {
   "Los Angeles": { color: '#4f46e5', shape: 'circle' },
   "Vermont": { color: '#f59e0b', shape: 'square' },
   "Northern California": { color: '#10b981', shape: 'triangle' },
-  London: { color: '#ec4899', shape: 'diamond' },
-  Seattle: { color: '#0ea5e9', shape: 'star' }
+  "San Francisco": { color: '#ec4899', shape: 'diamond' },
+  "Seattle": { color: '#0ea5e9', shape: 'star' },
+  "Detroit": { color: '#f97316', shape: 'cross' },
 };
 
 const symbolTypes = {
@@ -19,9 +20,13 @@ const symbolTypes = {
 };
 
 const dayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-const cellSize = 14;
+const cellSize = 20;
 const gap = 3;
 const margin = { top: 32, right: 12, bottom: 12, left: 30 };
+
+function monthCellFill(monthIndex) {
+  return d3.interpolateHcl('#d9f2dd', '#dbeafe')(monthIndex / 11);
+}
 
 function formatDate(date) {
   return d3.timeFormat('%b %-d, %Y')(date);
@@ -100,7 +105,7 @@ d3.csv('events.csv').then((rows) => {
   svg
     .append('text')
     .attr('x', margin.left)
-    .attr('y', 20)
+    .attr('y', -20)
     .attr('class', 'day-label')
     .text(`${year} Event Calendar`);
 
@@ -132,14 +137,14 @@ d3.csv('events.csv').then((rows) => {
         .attr('rx', 3)
         .attr('ry', 3)
         .attr('class', 'day-cell')
-        .attr('fill', inYear && dayEvents.length ? d3.color(locationMeta[dayEvents[0].location]?.color || '#cbd5e1').copy({ opacity: 0.18 }).formatRgb() : '#ffffff')
-        .attr('stroke', inYear && dayEvents.length ? '#cbd5e1' : '#f1f5f9');
+        .attr('fill', inYear ? monthCellFill(day.getMonth()) : '#ffffff')
+        .attr('stroke', inYear ? '#cbd5e1' : '#f1f5f9');
 
       if (inYear) {
         svg
           .append('text')
-          .attr('x', x + 7)
-          .attr('y', y + 10)
+          .attr('x', x + cellSize / 2)
+          .attr('y', y + cellSize / 2 + 4)
           .attr('class', 'day-number')
           .attr('text-anchor', 'middle')
           .text(day.getDate());
@@ -156,7 +161,7 @@ d3.csv('events.csv').then((rows) => {
           .attr('d', symbol)
           .attr('class', 'calendar-marker')
           .attr('data-key', d3.timeFormat('%Y-%m-%d')(event.date))
-          .attr('transform', `translate(${x + cellSize / 2 + offsetX}, ${y + cellSize / 2 + offsetY})`)
+          .attr('transform', `translate(${x + cellSize / 2 + offsetX + 2}, ${y + cellSize / 2 + offsetY+2})`)
           .attr('fill', meta.color)
           .attr('stroke', '#fff')
           .attr('stroke-width', 0.7)
