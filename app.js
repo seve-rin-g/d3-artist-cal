@@ -9,6 +9,8 @@ const locationMeta = {
   "San Francisco": { color: '#ec4899', shape: 'diamond' },
   "Seattle": { color: '#0ea5e9', shape: 'star' },
   "Detroit": { color: '#f97316', shape: 'cross' },
+  "Oakland": { color: '#7d5cf6', shape: 'pentagon' },
+
 };
 
 const symbolTypes = {
@@ -16,7 +18,10 @@ const symbolTypes = {
   square: d3.symbolSquare,
   triangle: d3.symbolTriangle,
   diamond: d3.symbolDiamond,
-  star: d3.symbolStar
+  star: d3.symbolStar,
+    cross: d3.symbolCross,
+    pentagon: d3.symbolWye,
+
 };
 
 const dayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -25,7 +30,7 @@ const gap = 3;
 const margin = { top: 32, right: 12, bottom: 12, left: 30 };
 
 function monthCellFill(monthIndex) {
-  return d3.interpolateHcl('#d9f2dd', '#dbeafe')(monthIndex / 11);
+  return d3.interpolateHcl('#81f194', '#6aa8f8')(monthIndex / 11);
 }
 
 function formatDate(date) {
@@ -34,7 +39,7 @@ function formatDate(date) {
 
 function highlightEvent(eventData) {
   d3.selectAll('.calendar-marker').classed('active', false);
-  d3.selectAll('.event-item').classed('active', false);
+  d3.selectAll('.event-row').classed('active', false);
 
   if (!eventData) return;
 
@@ -85,10 +90,10 @@ d3.csv('events.csv').then((rows) => {
   const svg = calendarContainer.append('svg').attr('viewBox', `0 0 ${width} ${height}`).attr('width', width).attr('height', height);
 
   eventsList
-    .selectAll('li')
+    .selectAll('tr')
     .data(sortedEvents)
-    .join('li')
-    .attr('class', 'event-item')
+    .join('tr')
+    .attr('class', 'event-row')
     .attr('data-key', (event) => d3.timeFormat('%Y-%m-%d')(event.date))
     .on('mouseenter', (_event, d) => highlightEvent(d))
     .on('mouseleave', () => highlightEvent(null))
@@ -96,10 +101,10 @@ d3.csv('events.csv').then((rows) => {
     .on('blur', () => highlightEvent(null))
     .html('')
     .each(function (event) {
-      const item = d3.select(this);
-      item.append('div').attr('class', 'event-name').text(event.name);
-      item.append('div').attr('class', 'event-meta').html(`<span>${event.location}</span><span>${event.category}</span>`);
-      item.append('div').attr('class', 'event-date').text(formatDate(event.date));
+      const row = d3.select(this);
+      row.append('td').attr('class', 'event-date').text(formatDate(event.date));
+      row.append('td').attr('class', 'event-name').text(event.name);
+      row.append('td').attr('class', 'event-location').text(event.location);
     });
 
   svg

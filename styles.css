@@ -54,18 +54,19 @@ p {
 }
 
 #calendar {
-  background: rgba(255, 255, 255, 0.9);
+  /*background: rgba(255, 255, 255, 0.9);
   border: 1px solid #e2e8f0;
   border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+*/
   padding: 1rem;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
   overflow-x: auto;
 }
 
 .dashboard {
   display: grid;
-  grid-template-columns: minmax(0, 1.75fr) minmax(280px, 0.8fr);
-  gap: 1rem;
+  grid-template-columns: minmax(0, 1.8fr) minmax(240px, 0.6fr);
+  gap: 0.6rem;
   align-items: start;
 }
 
@@ -74,74 +75,78 @@ p {
 }
 
 .events-panel {
-  background: rgba(255, 255, 255, 0.92);
+  /*background: rgba(255, 255, 255, 0.92);
   border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 1rem;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);*/
+
 }
 
 .events-panel h2 {
   margin: 0 0 0.75rem;
-  font-size: 1.05rem;
+  font-size: .7rem;
 }
 
-.events-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
+.events-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.6rem;
 }
 
-.event-item {
-  padding: 0.7rem 0.8rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  background: #f8fafc;
-  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+.events-table th,
+.events-table td {
+  padding: 0.28rem 0.3rem;
+  text-align: left;
+  border-bottom: 1px solid #ececf0;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
-.event-item:hover,
-.event-item.active {
+.events-table th {
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.event-row {
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.event-row:hover,
+.event-row.active {
   background: #eef2ff;
-  border-color: #818cf8;
-  transform: translateY(-1px);
 }
 
 .event-name {
   font-weight: 700;
   color: #111827;
-  margin-bottom: 0.25rem;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.event-meta,
+.event-location,
 .event-date {
   color: #475569;
-  font-size: 0.9rem;
-}
-
-.event-meta {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-top: 0.25rem;
 }
 
 .day-cell {
-  stroke: #e2e8f0;
-  stroke-width: 1;
+  stroke: #e7e7e8;
+  stroke-width: .5;
+  opacity: 0.6;
 }
 
 .day-label {
-  fill: #475569;
+  fill: #222c3b;
   font-size: 12px;
   pointer-events: none;
 }
 
 .day-number {
-  fill: #cedbd1;
+  fill: #f1f1f1;
   font-size: 9px;
   font-weight: 600;
   pointer-events: none;
