@@ -10,14 +10,25 @@ const connectorLayer = d3
 const connectorLine = connectorLayer.append('line').attr('class', 'connector-line');
 
 const locationMeta = {
-  "Los Angeles": { color: '#4f46e5', shape: 'circle' },
-  "Vermont": { color: '#f59e0b', shape: 'square' },
-  "Northern California": { color: '#10b981', shape: 'triangle' },
-  "San Francisco": { color: '#ec4899', shape: 'diamond' },
-  "Seattle": { color: '#0ea5e9', shape: 'star' },
-  "Detroit": { color: '#f97316', shape: 'cross' },
-  "Oakland": { color: '#7d5cf6', shape: 'pentagon' },
+  "Los Angeles": { color: '#4f46e5' },
+  "Vermont": { color: '#f59e0b' },
+  "Northern California": { color: '#10b981' },
+  "San Francisco": { color: '#ec4899' },
+  "Seattle": { color: '#0ea5e9' },
+  "Detroit": { color: '#f97316' },
+  "Oakland": { color: '#7d5cf6' },
+  "New Orleans": { color: '#8b5cf6' },
+  "Boston": { color: '#14b8a6' },
+  "Washington DC": { color: '#ef4444' },
+};
 
+const categoryShapeMap = {
+  'dj set': 'circle',
+  'audio engineer': 'square',
+  'shame engine live set': 'triangle',
+  'shame engine (practice)': 'diamond',
+  'dnb b2b w/ octo octa': 'star',
+  'soundsystem designer': 'cross',
 };
 
 const symbolTypes = {
@@ -44,6 +55,11 @@ function formatDate(date) {
   return d3.timeFormat('%b %-d, %Y')(date);
 }
 
+function getCategoryShape(category) {
+  const normalized = (category || '').trim().toLowerCase();
+  return categoryShapeMap[normalized] || 'circle';
+}
+
 function updateConnector(eventData) {
   if (!eventData) {
     connectorLine.classed('active', false);
@@ -60,19 +76,24 @@ function updateConnector(eventData) {
   if (marker.size() && row.size()) {
     const markerRect = marker.node().getBoundingClientRect();
     const rowRect = row.node().getBoundingClientRect();
+    const monthIndex = eventData.date.getMonth();
+    const connectorColor = monthCellFill(monthIndex);
 
     connectorLine
       .classed('active', true)
       .attr('x1', markerRect.left + markerRect.width / 2)
       .attr('y1', markerRect.top + markerRect.height / 2)
       .attr('x2', rowRect.left - 8)
-      .attr('y2', rowRect.top + rowRect.height / 2);
+      .attr('y2', rowRect.top + rowRect.height / 2)
+      .attr('stroke', connectorColor);
+
+    row.style('background-color', d3.color(connectorColor).copy({ opacity: 0.6 }).formatRgb());
   }
 }
 
 function highlightEvent(eventData) {
   d3.selectAll('.calendar-marker').classed('active', false);
-  d3.selectAll('.event-row').classed('active', false);
+  d3.selectAll('.event-row').classed('active', false).style('background-color', null);
   updateConnector(eventData);
 }
 
@@ -208,8 +229,9 @@ d3.csv('events.csv').then((rows) => {
       }
 
       dayEvents.forEach((event, eventIndex) => {
-        const meta = locationMeta[event.location] || { color: '#64748b', shape: 'circle' };
-        const symbol = d3.symbol().type(symbolTypes[meta.shape] || d3.symbolCircle).size(90)();
+        const meta = locationMeta[event.location] || { color: '#64748b' };
+        const shape = getCategoryShape(event.category);
+        const symbol = d3.symbol().type(symbolTypes[shape] || d3.symbolCircle).size(90)();
         const offsetX = eventIndex % 2 === 0 ? -2 : 2;
         const offsetY = eventIndex < 2 ? -2 : 2;
 
