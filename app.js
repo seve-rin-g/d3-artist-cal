@@ -100,7 +100,8 @@ d3.csv('events.csv').then((rows) => {
       date: d3.timeParse('%Y-%m-%d')(row.date),
       location: row.location.trim(),
       name: row.name.trim(),
-      category: row.category.trim()
+      category: row.category.trim(),
+      link: row.link ? row.link.trim() : ''
     }))
     .filter((event) => event.date && event.date.getFullYear() === year);
 
@@ -133,6 +134,13 @@ d3.csv('events.csv').then((rows) => {
       row.append('td').attr('class', 'event-date').text(formatDate(event.date));
       row.append('td').attr('class', 'event-name').text(event.name);
       row.append('td').attr('class', 'event-location').text(event.location);
+      row.append('td').attr('class', 'event-category').text(event.category);
+      const linkCell = row.append('td').attr('class', 'event-link');
+      if (event.link) {
+        linkCell.append('a').attr('href', event.link).attr('target', '_blank').attr('rel', 'noopener noreferrer').text('Open');
+      } else {
+        linkCell.text('—');
+      }
     });
 
   svg
