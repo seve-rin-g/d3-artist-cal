@@ -64,23 +64,27 @@ p {
 }
 
 .dashboard {
-  display: grid;
-  grid-template-columns: minmax(0, 1.8fr) minmax(240px, 0.6fr);
-  gap: 0.6rem;
-  align-items: start;
+  display: flex;
+  align-items: flex-start;
+}
+
+.calendar-shell {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  width: fit-content;
+  max-width: 100%;
 }
 
 .calendar-panel {
   min-width: 0;
+  flex: 0 0 auto;
+  padding: 0.5rem 0 0;
 }
 
 .events-panel {
-  /*background: rgba(255, 255, 255, 0.92);
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 1rem;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);*/
-
+  flex: 0 1 260px;
+  min-width: 220px;
 }
 
 .events-panel h2 {
