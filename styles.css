@@ -90,17 +90,19 @@ p {
 }
 
 .events-panel {
-  flex: 0 1 260px;
-  min-width: 220px;
+  flex: 0 0 auto;
+  width: max-content;
+  min-width: 0;
 }
 
 .events-panel h2 {
   margin: 0 0 0.75rem;
   font-size: .7rem;
+  width: max-content;
 }
 
 .events-table {
-  width: 100%;
+  width: max-content;
   border-collapse: collapse;
   font-size: 0.6rem;
 }
@@ -145,10 +147,20 @@ p {
 .event-link a {
   color: #2563eb;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .event-link a:hover {
   text-decoration: underline;
+}
+
+.link-icon {
+  display: inline-block;
+  font-size: 0.8rem;
+  line-height: 1;
+  transform: translateY(-1px);
 }
 
 

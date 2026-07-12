@@ -158,9 +158,17 @@ d3.csv('events.csv').then((rows) => {
       row.append('td').attr('class', 'event-category').text(event.category);
       const linkCell = row.append('td').attr('class', 'event-link');
       if (event.link) {
-        linkCell.append('a').attr('href', event.link).attr('target', '_blank').attr('rel', 'noopener noreferrer').text('Open');
+        linkCell
+          .append('a')
+          .attr('href', event.link)
+          .attr('target', '_blank')
+          .attr('rel', 'noopener noreferrer')
+          .attr('aria-label', `Open ${event.name}`)
+          .append('span')
+          .attr('class', 'link-icon')
+          .text('↗');
       } else {
-        linkCell.text('—');
+        linkCell.text('');
       }
     });
 
