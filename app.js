@@ -139,6 +139,22 @@ d3.csv('events.csv').then((rows) => {
     .attr('class', 'day-label')
     .text(`${year} Event Calendar`);
 
+  for (let monthIndex = 0; monthIndex < 12; monthIndex += 1) {
+    const monthStart = new Date(year, monthIndex, 1);
+    const firstWeek = d3.timeSunday.floor(monthStart);
+    const monthWeekIndex = Math.floor((monthStart - startOfWeek) / (7 * 24 * 60 * 60 * 1000));
+    const labelY = margin.top + monthWeekIndex * (cellSize + gap) + cellSize / 2 + 40 ;
+
+    svg
+      .append('text')
+      .attr('x', 8)
+      .attr('y', labelY)
+      .attr('class', 'month-label')
+      .attr('transform', `rotate(-90, 8, ${labelY})`)
+      .attr('fill', monthCellFill(monthIndex))
+      .text(d3.timeFormat('%b')(monthStart).toUpperCase());
+  }
+
   dayLabels.forEach((label, dayIndex) => {
     svg
       .append('text')

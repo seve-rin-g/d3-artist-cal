@@ -142,6 +142,14 @@ p {
   pointer-events: none;
 }
 
+.month-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
 .day-number {
   fill: #f1f1f1;
   font-size: 9px;
