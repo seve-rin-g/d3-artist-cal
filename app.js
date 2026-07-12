@@ -1,6 +1,13 @@
 const year = new Date().getFullYear();
 const calendarContainer = d3.select('#calendar');
 const eventsList = d3.select('#events-list');
+const connectorLayer = d3
+  .select('body')
+  .append('svg')
+  .attr('class', 'connector-layer')
+  .attr('width', '100%')
+  .attr('height', '100%');
+const connectorLine = connectorLayer.append('line').attr('class', 'connector-line');
 
 const locationMeta = {
   "Los Angeles": { color: '#4f46e5', shape: 'circle' },
@@ -41,11 +48,29 @@ function highlightEvent(eventData) {
   d3.selectAll('.calendar-marker').classed('active', false);
   d3.selectAll('.event-row').classed('active', false);
 
-  if (!eventData) return;
+  if (!eventData) {
+    connectorLine.classed('active', false);
+    return;
+  }
 
   const key = d3.timeFormat('%Y-%m-%d')(eventData.date);
-  d3.selectAll(`.calendar-marker[data-key="${key}"]`).classed('active', true);
-  d3.selectAll(`.event-item[data-key="${key}"]`).classed('active', true);
+  const marker = d3.select(`.calendar-marker[data-key="${key}"]`);
+  const row = d3.select(`.event-row[data-key="${key}"]`);
+
+  marker.classed('active', true);
+  row.classed('active', true);
+
+  if (marker.size() && row.size()) {
+    const markerRect = marker.node().getBoundingClientRect();
+    const rowRect = row.node().getBoundingClientRect();
+
+    connectorLine
+      .classed('active', true)
+      .attr('x1', markerRect.left + markerRect.width / 2)
+      .attr('y1', markerRect.top + markerRect.height / 2)
+      .attr('x2', rowRect.left - 8)
+      .attr('y2', rowRect.top + rowRect.height / 2);
+  }
 }
 
 function drawLegend() {

@@ -120,18 +120,15 @@ p {
   background: #eef2ff;
 }
 
-.event-name {
-  font-weight: 700;
-  color: #111827;
-  max-width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
+.event-name,
 .event-location,
 .event-date {
   color: #475569;
+  font-size: 0.6rem;
+  font-weight: 500;
+  line-height: 1.3;
 }
+
 
 .day-cell {
   stroke: #e7e7e8;
@@ -153,7 +150,35 @@ p {
   opacity: 0.8;
 }
 
+.calendar-marker {
+  position: relative;
+  z-index: 10;
+}
+
 .calendar-marker.active {
   stroke: #111827;
   stroke-width: 1.2;
+}
+
+.connector-layer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.connector-line {
+  stroke: #94a3b8;
+  stroke-width: 1.2;
+  stroke-dasharray: 3 3;
+  fill: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+
+.connector-line.active {
+  opacity: 1;
 }
