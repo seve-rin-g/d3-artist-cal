@@ -44,10 +44,7 @@ function formatDate(date) {
   return d3.timeFormat('%b %-d, %Y')(date);
 }
 
-function highlightEvent(eventData) {
-  d3.selectAll('.calendar-marker').classed('active', false);
-  d3.selectAll('.event-row').classed('active', false);
-
+function updateConnector(eventData) {
   if (!eventData) {
     connectorLine.classed('active', false);
     return;
@@ -71,6 +68,12 @@ function highlightEvent(eventData) {
       .attr('x2', rowRect.left - 8)
       .attr('y2', rowRect.top + rowRect.height / 2);
   }
+}
+
+function highlightEvent(eventData) {
+  d3.selectAll('.calendar-marker').classed('active', false);
+  d3.selectAll('.event-row').classed('active', false);
+  updateConnector(eventData);
 }
 
 function drawLegend() {
@@ -216,6 +219,17 @@ d3.csv('events.csv').then((rows) => {
           .on('mousemove', () => highlightEvent(event))
           .on('mouseleave', () => highlightEvent(null));
       });
+    }
+  });
+
+  window.addEventListener('scroll', () => {
+    const activeRow = d3.select('.event-row.active');
+    if (!activeRow.empty()) {
+      const key = activeRow.attr('data-key');
+      const eventData = events.find((entry) => d3.timeFormat('%Y-%m-%d')(entry.date) === key);
+      if (eventData) {
+        updateConnector(eventData);
+      }
     }
   });
 
